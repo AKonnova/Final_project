@@ -17,7 +17,7 @@ public class AdEditSteps {
     }
 
     @Given("User is registered in the system for ad edit")
-    public void userIsRegistered() {
+    public void userIsRegisteredForEdit() {
         context.userRegisterData = dataGenerator.createUser();
         context.userApi.registerUser(context.userRegisterData);
     }

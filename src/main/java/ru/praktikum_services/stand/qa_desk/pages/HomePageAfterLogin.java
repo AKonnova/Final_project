@@ -1,52 +1,33 @@
 package ru.praktikum_services.stand.qa_desk.pages;
 
-import com.codeborne.selenide.SelenideElement;
-
+import ru.praktikum_services.stand.qa_desk.components.Header;
 import static com.codeborne.selenide.Selenide.*;
 import static ru.praktikum_services.stand.qa_desk.constants.Elements.*;
-import static ru.praktikum_services.stand.qa_desk.constants.Url.*;
-import static com.codeborne.selenide.Condition.visible;
 
 public class HomePageAfterLogin extends BasePage {
+    private Header header = new Header();
 
-    private final SelenideElement profileButton = $(PROFILE_BUTTON_SELECTOR);
-    private final SelenideElement username = $(USERNAME_SELECTOR);
-    private final SelenideElement logoutButton = $x(LOGOUT_BUTTON_XPATH);
-    private final SelenideElement createAdButton = $x(CREATE_AD_BUTTON_XPATH);
-
-    CreateAdPage createAdPage = page(CreateAdPage.class);
-    ProfilePage profilePage = page(ProfilePage.class);
-    RegistrationPage registrationPage = page(RegistrationPage.class);
-
-//    @Override
-//    public void openPage() {
-//        open(HOST);
-//    }
+    public Header getHeader() {
+        return header;
+    }
 
     public String getUsername() {
-        return username.getText();
+        return header.getUserName();
     }
 
     public ProfilePage clickProfileButton() {
-        profileButton.click();
-        return profilePage;
+        return header.clickProfileButton();
     }
 
     public CreateAdPage clickCreateAdButton() {
-        createAdButton.click();
-        return createAdPage;
+        return header.clickCreateAdButton();
     }
 
-    public RegistrationPage clickLogoutButton() {
-        logoutButton.click();
-        return registrationPage;
+    public void clickLogoutButton() {
+        header.clickLogoutButton();
     }
 
     public boolean isAuthorized() {
-        profileButton.shouldBe(visible);
-        username.shouldBe(visible);
-        logoutButton.shouldBe(visible);
-        return true;
+        return header.isAuthorized();
     }
-
 }

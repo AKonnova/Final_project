@@ -3,7 +3,6 @@ Feature: Advertisement delete
   As registered user
   I want to delete an advertisement
   To clear out-of-date ads in the system
-  (But I cannot because there is no delete button)
 
   @delete
   Scenario: Successful advertisement delete

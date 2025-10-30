@@ -1,5 +1,6 @@
 package ru.praktikum_services.stand.qa_desk.api;
 
+
 public class AdCreateData {
 
     private String name;

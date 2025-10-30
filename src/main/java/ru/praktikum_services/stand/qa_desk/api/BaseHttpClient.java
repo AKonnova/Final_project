@@ -7,6 +7,7 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
 
+
 public class BaseHttpClient {
 
     protected RequestSpecification baseRequestSpec = new RequestSpecBuilder()

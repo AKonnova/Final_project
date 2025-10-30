@@ -21,17 +21,14 @@ public class LoginPage extends BasePage {
     }
 
     public void setEmail(String email) {
-        //Selenide.sleep(10000);
         emailInput.setValue(email);
     }
 
     public void setPassword(String password) {
-        //Selenide.sleep(10000);
         passwordInput.setValue(password);
     }
 
     public void clickLoginButton() {
-        //Selenide.sleep(10000);
         loginButton.click();
     }
 
@@ -48,5 +45,4 @@ public class LoginPage extends BasePage {
         RegistrationPage registrationPage = page(RegistrationPage.class);
         return registrationPage;
     }
-
 }

@@ -4,21 +4,17 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
-import ru.praktikum_services.stand.qa_desk.api.DataGenerator;
 
 public class LoginSteps {
-
     private final TestContext context;
-    private final DataGenerator dataGenerator;
 
     public LoginSteps(TestContext context) {
         this.context = context;
-        this.dataGenerator = new DataGenerator();
     }
 
     @Given("User is registered in the system")
     public void userIsRegistered() {
-        context.userRegisterData = dataGenerator.createUser();
+        context.userRegisterData = context.dataGenerator.createUser();
         context.userApi.registerUser(context.userRegisterData);
     }
 
@@ -29,12 +25,12 @@ public class LoginSteps {
 
     @When("Enters correct data and logs in")
     public void enterValidCredentialsAndLogin() {
-        context.loginPage.loginUser(context.userRegisterData);
+        context.homePageAfterLogin = context.loginPage.loginUser(context.userRegisterData);
     }
 
     @Then("User is authorized")
     public void userLoggedIn() {
         Assertions.assertTrue(context.homePageAfterLogin.isAuthorized());
+        System.out.println("✅ Пользователь успешно авторизован: " + context.homePageAfterLogin.getUsername());
     }
-
 }

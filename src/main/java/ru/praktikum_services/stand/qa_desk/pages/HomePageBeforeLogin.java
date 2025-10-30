@@ -1,36 +1,21 @@
 package ru.praktikum_services.stand.qa_desk.pages;
 
-import com.codeborne.selenide.SelenideElement;
-
-import static com.codeborne.selenide.Condition.visible;
+import ru.praktikum_services.stand.qa_desk.components.Header;
 import static com.codeborne.selenide.Selenide.*;
 import static ru.praktikum_services.stand.qa_desk.constants.Elements.*;
-import static ru.praktikum_services.stand.qa_desk.constants.Url.HOST;
 
 public class HomePageBeforeLogin extends BasePage {
+    private Header header = new Header();
 
-    private final SelenideElement loginRegisterButton = $x(LOGIN_REGISTER_BUTTON_XPATH);
-    private final SelenideElement profileButton = $(PROFILE_BUTTON_SELECTOR);
-    private final SelenideElement username = $(USERNAME_SELECTOR);
-    private final SelenideElement logoutButton = $x(LOGOUT_BUTTON_XPATH);
-
-//    @Override
-//    public void openPage() {
-//        open(HOST);
-//    }
+    public Header getHeader() {
+        return header;
+    }
 
     public LoginPage clickLoginRegisterButton() {
-        loginRegisterButton.click();
-        LoginPage loginPage = page(LoginPage.class);
-        return loginPage;
+        return header.clickLoginAndRegisterButton();
     }
 
     public boolean isNotAuthorized() {
-        loginRegisterButton.shouldBe(visible);
-        profileButton.shouldNotBe(visible);
-        username.shouldNotBe(visible);
-        logoutButton.shouldNotBe(visible);
-        return true;
+        return header.isNotAuthorized();
     }
-
 }

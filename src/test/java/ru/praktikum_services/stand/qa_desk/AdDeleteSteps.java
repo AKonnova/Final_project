@@ -17,7 +17,7 @@ public class AdDeleteSteps {
     }
 
     @Given("User is registered in the system for ad deletion")
-    public void userIsRegistered() {
+    public void userIsRegisteredForDeletion() {
         context.userRegisterData = dataGenerator.createUser();
         context.userApi.registerUser(context.userRegisterData);
     }
@@ -48,5 +48,4 @@ public class AdDeleteSteps {
     public void deleteButtonAvailable() {
         Assertions.assertTrue(context.profilePage.hasDeleteButton());
     }
-
 }

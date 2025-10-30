@@ -4,16 +4,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
-import ru.praktikum_services.stand.qa_desk.api.DataGenerator;
 
 public class AdCreateSteps {
-
     private final TestContext context;
-    private final DataGenerator dataGenerator;
 
     public AdCreateSteps(TestContext context) {
         this.context = context;
-        this.dataGenerator = new DataGenerator();
     }
 
     @Given("User is authorized in the system for ad creation")
@@ -25,14 +21,14 @@ public class AdCreateSteps {
 
     @When("User creates new advertisement")
     public void createNewAd() {
+        context.adCreateData = context.dataGenerator.createAd();
         context.homePageAfterLogin.clickCreateAdButton();
-        context.createAdPage.createAd(dataGenerator.createAd());
+        context.createAdPage.createAd(context.adCreateData);
     }
 
     @Then("Ad is displayed in user profile")
     public void adDisplayedInProfile() {
         context.homePageAfterLogin.clickProfileButton();
-        context.profilePage.hasAds();
+        Assertions.assertTrue(context.profilePage.hasAds());
     }
-
 }

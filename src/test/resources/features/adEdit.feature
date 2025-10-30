@@ -3,7 +3,6 @@ Feature: Advertisement edit
   As registered user
   I want to edit an advertisement
   To make it up-to-date in the system
-  (but I cannot because it doesn't work, create ad form is opened instead)
 
   @edit
   Scenario: Successful advertisement edit
