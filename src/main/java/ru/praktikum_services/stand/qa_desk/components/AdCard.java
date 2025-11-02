@@ -3,11 +3,8 @@ package ru.praktikum_services.stand.qa_desk.components;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import ru.praktikum_services.stand.qa_desk.pages.EditAdPage;
-import static ru.praktikum_services.stand.qa_desk.constants.Elements.*;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.page;
-import static com.codeborne.selenide.Selenide.sleep;
 
 public class AdCard {
     private final SelenideElement card;
@@ -31,12 +28,11 @@ public class AdCard {
     }
 
     public void clickEdit() {
-        editButtonElement.shouldBe(visible).click();
+        editButtonElement.shouldBe(visible, enabled).click();
     }
 
     public void clickDelete() {
-        deleteButtonElement.shouldBe(visible).click();
-        sleep(1000);
+        deleteButtonElement.shouldBe(visible, enabled).click();
     }
 
     public EditAdPage editAd() {
@@ -45,18 +41,12 @@ public class AdCard {
     }
 
     public AdCard shouldHaveEditButton() {
-        if (!editButtonElement.exists()) {
-            throw new AssertionError("Edit button not found");
-        }
-        editButtonElement.shouldBe(visible);
+        editButtonElement.shouldBe(visible, enabled);
         return this;
     }
 
     public AdCard shouldHaveDeleteButton() {
-        if (!deleteButtonElement.exists()) {
-            throw new AssertionError("Delete button not found");
-        }
-        deleteButtonElement.shouldBe(visible);
+        deleteButtonElement.shouldBe(visible, enabled);
         return this;
     }
 }

@@ -19,6 +19,10 @@ public class Header {
         return userNameLabel.shouldBe(visible).getText();
     }
 
+    public SelenideElement getUserNameElement() {
+        return userNameLabel.shouldBe(visible);
+    }
+
     public LoginPage clickLoginAndRegisterButton() {
         loginAndRegisterButton.shouldBe(visible).click();
         return page(LoginPage.class);

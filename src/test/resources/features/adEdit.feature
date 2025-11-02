@@ -4,6 +4,7 @@ Feature: Advertisement edit
   I want to edit an advertisement
   To make it up-to-date in the system
 
+  # Баг - открывается форма создания нового объявления, а не редактирования существующего
   @edit
   Scenario: Successful advertisement edit
     Given User is registered in the system for ad edit

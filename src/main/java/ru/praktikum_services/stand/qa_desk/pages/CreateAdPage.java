@@ -3,14 +3,11 @@ package ru.praktikum_services.stand.qa_desk.pages;
 import ru.praktikum_services.stand.qa_desk.api.AdCreateData;
 import ru.praktikum_services.stand.qa_desk.components.Header;
 import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static ru.praktikum_services.stand.qa_desk.constants.Url.*;
-import static ru.praktikum_services.stand.qa_desk.constants.Endpoints.*;
+import static ru.praktikum_services.stand.qa_desk.constants.Url.HOST;
+import static ru.praktikum_services.stand.qa_desk.constants.Endpoints.CREATE_AD_PAGE;
 import static ru.praktikum_services.stand.qa_desk.constants.Elements.*;
 
 public class CreateAdPage extends BasePage {
@@ -23,6 +20,9 @@ public class CreateAdPage extends BasePage {
     private final SelenideElement categoryDropdownButton = $(CATEGORY_DROPDOWN_SELECTOR);
     private final SelenideElement cityDropdownButton = $(CITY_DROPDOWN_SELECTOR);
     private final ElementsCollection dropdownOptions = $$(DROPDOWN_OPTIONS_SELECTOR);
+
+    private final SelenideElement newConditionRadioCircle = $x("//input[@value='Новый']/following-sibling::div[contains(@class, 'radioUnput_inputActive__eC-HY')]");
+    private final SelenideElement usedConditionRadioCircle = $x("//input[@value='Б/У']/following-sibling::div[contains(@class, 'radioUnput_inputRegular__FbVbr')]");
 
     private Header header;
 
@@ -40,38 +40,36 @@ public class CreateAdPage extends BasePage {
     }
 
     public void setName(String name) {
-        nameInput.setValue(name);
+        nameInput.shouldBe(visible, editable).setValue(name);
     }
 
     public void setDescription(String description) {
-        descriptionInput.setValue(description);
+        descriptionInput.shouldBe(visible, editable).setValue(description);
     }
 
     public void setPrice(int price) {
-        priceInput.setValue(String.valueOf(price));
+        priceInput.shouldBe(visible, editable).setValue(String.valueOf(price));
     }
 
     public void clickPublishButton() {
-        publishButton.click();
+        publishButton.shouldBe(visible, enabled).click();
     }
 
     public void selectCategory(String category) {
-        categoryDropdownButton.click();
-        Selenide.sleep(1000);
-        dropdownOptions.findBy(text(category)).click();
+        categoryDropdownButton.shouldBe(visible, enabled).click();
+        dropdownOptions.findBy(text(category)).shouldBe(visible, enabled).click();
     }
 
     public void selectCity(String city) {
-        cityDropdownButton.click();
-        Selenide.sleep(1000);
-        dropdownOptions.findBy(text(city)).click();
+        cityDropdownButton.shouldBe(visible, enabled).click();
+        dropdownOptions.findBy(text(city)).shouldBe(visible, enabled).click();
     }
 
     public void selectCondition(String condition) {
         if ("Новый".equals(condition)) {
-            $(CONDITION_NEW_RADIO).click();
+            newConditionRadioCircle.shouldBe(visible, enabled).click();
         } else if ("Б/У".equals(condition)) {
-            $(CONDITION_USED_RADIO).click();
+            usedConditionRadioCircle.shouldBe(visible, enabled).click();
         }
     }
 
@@ -83,7 +81,12 @@ public class CreateAdPage extends BasePage {
         setDescription(ad.getDescription());
         setPrice(ad.getPrice());
         clickPublishButton();
-        HomePageAfterLogin homePage = page(HomePageAfterLogin.class);
-        return homePage;
+        return page(HomePageAfterLogin.class);
+    }
+
+    public CreateAdPage shouldBeOpened() {
+        nameInput.shouldBe(visible);
+        publishButton.shouldBe(visible);
+        return this;
     }
 }

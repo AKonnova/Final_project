@@ -25,16 +25,17 @@ public class AdEditSteps {
     @Given("User is authorized in the system for ad edit")
     public void userIsAuthorizedForAdEdit() {
         context.loginPage.openPage();
-        context.loginPage.loginUser(context.userRegisterData);
+        context.homePageAfterLogin = context.loginPage.loginUser(context.userRegisterData);
         Assertions.assertTrue(context.homePageAfterLogin.isAuthorized());
     }
 
     @Given("User has a created advertisement")
     public void userHasAd() {
         context.adCreateData = dataGenerator.createAd();
-        context.homePageAfterLogin.clickCreateAdButton();
-        context.createAdPage.createAd(context.adCreateData);
-        context.homePageAfterLogin.clickProfileButton();
+        context.createAdPage = context.homePageAfterLogin.clickCreateAdButton();
+        context.createAdPage.shouldBeOpened();
+        context.homePageAfterLogin = context.createAdPage.createAd(context.adCreateData);
+        context.profilePage = context.homePageAfterLogin.clickProfileButton();
         Assertions.assertTrue(context.profilePage.hasAds());
     }
 
@@ -48,5 +49,6 @@ public class AdEditSteps {
     @Then("Ad create form is opened")
     public void openCreateAdForm() {
         context.createAdPage.openPage();
+        context.createAdPage.shouldBeOpened();
     }
 }

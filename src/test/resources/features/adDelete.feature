@@ -4,6 +4,7 @@ Feature: Advertisement delete
   I want to delete an advertisement
   To clear out-of-date ads in the system
 
+  # Баг - отсутствует кнопка удаления объявления
   @delete
   Scenario: Successful advertisement delete
     Given User is registered in the system for ad deletion

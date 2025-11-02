@@ -15,20 +15,21 @@ public class AdCreateSteps {
     @Given("User is authorized in the system for ad creation")
     public void userIsAuthorizedForAdCreation() {
         context.loginPage.openPage();
-        context.loginPage.loginUser(context.userRegisterData);
+        context.homePageAfterLogin = context.loginPage.loginUser(context.userRegisterData);
         Assertions.assertTrue(context.homePageAfterLogin.isAuthorized());
     }
 
     @When("User creates new advertisement")
     public void createNewAd() {
         context.adCreateData = context.dataGenerator.createAd();
-        context.homePageAfterLogin.clickCreateAdButton();
-        context.createAdPage.createAd(context.adCreateData);
+        context.createAdPage = context.homePageAfterLogin.clickCreateAdButton();
+        context.createAdPage.shouldBeOpened();
+        context.homePageAfterLogin = context.createAdPage.createAd(context.adCreateData);
     }
 
     @Then("Ad is displayed in user profile")
     public void adDisplayedInProfile() {
-        context.homePageAfterLogin.clickProfileButton();
+        context.profilePage = context.homePageAfterLogin.clickProfileButton();
         Assertions.assertTrue(context.profilePage.hasAds());
     }
 }

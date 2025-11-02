@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-
 public class DataGenerator {
     private final Faker faker;
     private final Random random;
