@@ -10,5 +10,7 @@ Feature: Advertisement delete
     Given User is registered in the system for ad deletion
     And User is authorized in the system for ad deletion
     And User has a created advertisement for deletion
-    When User goes to profile with ads
-    Then Delete button is available
+    When User verifies advertisement is published in profile
+    And User opens advertisement for viewing from profile
+    And User clicks delete button
+    Then Advertisement is not found in search

@@ -3,6 +3,7 @@ package ru.praktikum_services.stand.qa_desk.pages;
 import ru.praktikum_services.stand.qa_desk.components.AdCard;
 import ru.praktikum_services.stand.qa_desk.components.Header;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,8 +39,19 @@ public class ProfilePage extends BasePage {
     }
 
     public boolean hasAds() {
+        return !advertisementCards.isEmpty();
+    }
+
+    public void shouldHaveAdvertisements() {
         advertisementCards.first().shouldBe(visible);
-        return true;
+    }
+
+    public int getAdCount() {
+        return advertisementCards.size();
+    }
+
+    public void clickFirstAd() {
+        advertisementCards.first().click();
     }
 
     public boolean hasEditButton() {
@@ -47,30 +59,18 @@ public class ProfilePage extends BasePage {
             return false;
         }
         AdCard firstAd = new AdCard(advertisementCards.first());
-        firstAd.shouldHaveEditButton();
-        return true;
-    }
-
-    public boolean hasDeleteButton() {
-        if (advertisementCards.isEmpty()) {
+        try {
+            firstAd.shouldHaveEditButton();
+            return true;
+        } catch (Exception e) {
             return false;
         }
-        AdCard firstAd = new AdCard(advertisementCards.first());
-        firstAd.shouldHaveDeleteButton();
-        return true;
     }
 
     public void clickEditButton() {
         if (!advertisementCards.isEmpty()) {
             AdCard firstAd = new AdCard(advertisementCards.first());
             firstAd.clickEdit();
-        }
-    }
-
-    public void clickDeleteButton() {
-        if (!advertisementCards.isEmpty()) {
-            AdCard firstAd = new AdCard(advertisementCards.first());
-            firstAd.clickDelete();
         }
     }
 }

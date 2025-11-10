@@ -2,7 +2,7 @@ package ru.praktikum_services.stand.qa_desk.pages;
 
 import ru.praktikum_services.stand.qa_desk.components.Header;
 import static com.codeborne.selenide.Selenide.*;
-import static ru.praktikum_services.stand.qa_desk.constants.Elements.*;
+import static ru.praktikum_services.stand.qa_desk.constants.Url.HOST;
 
 public class HomePageAfterLogin extends BasePage {
     private Header header = new Header();
@@ -29,5 +29,9 @@ public class HomePageAfterLogin extends BasePage {
 
     public boolean isAuthorized() {
         return header.isAuthorized();
+    }
+
+    public void openPage() {
+        open(HOST);
     }
 }

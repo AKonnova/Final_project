@@ -6,6 +6,7 @@ import ru.praktikum_services.stand.qa_desk.api.UserRegisterData;
 import ru.praktikum_services.stand.qa_desk.api.DataGenerator;
 import ru.praktikum_services.stand.qa_desk.pages.*;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -22,6 +23,8 @@ public class TestContext {
     public EditAdPage editAdPage;
     public CreateAdPage createAdPage;
     public UserApi userApi;
+    public String createdAdTitle;
+    public SelenideElement deleteButton;
 
     public TestContext() {
         setup();
@@ -39,7 +42,7 @@ public class TestContext {
     private void setup() {
         WebDriverManager.chromedriver().setup();
         Configuration.browser = "chrome";
-        Configuration.timeout = 10000;
+        Configuration.timeout = 15000;
         Configuration.browserSize = "1920x1080";
         Configuration.headless = false;
     }

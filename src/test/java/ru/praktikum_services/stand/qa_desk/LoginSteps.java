@@ -12,8 +12,8 @@ public class LoginSteps {
         this.context = context;
     }
 
-    @Given("User is registered in the system")
-    public void userIsRegistered() {
+    @Given("Registered user exists in system")
+    public void registeredUserExists() {
         context.userRegisterData = context.dataGenerator.createUser();
         context.userApi.registerUser(context.userRegisterData);
     }
@@ -23,12 +23,12 @@ public class LoginSteps {
         context.loginPage.openPage();
     }
 
-    @When("Enters correct data and logs in")
+    @When("User enters correct credentials and logs in")
     public void enterValidCredentialsAndLogin() {
         context.homePageAfterLogin = context.loginPage.loginUser(context.userRegisterData);
     }
 
-    @Then("User is authorized")
+    @Then("User is successfully authorized")
     public void userLoggedIn() {
         Assertions.assertTrue(context.homePageAfterLogin.isAuthorized());
         System.out.println("✅ Пользователь успешно авторизован: " + context.homePageAfterLogin.getUsername());

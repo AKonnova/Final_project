@@ -4,6 +4,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
+import com.codeborne.selenide.Selenide;
 
 public class AdCreateSteps {
     private final TestContext context;
@@ -12,7 +13,7 @@ public class AdCreateSteps {
         this.context = context;
     }
 
-    @Given("User is authorized in the system for ad creation")
+    @Given("User is authorized for advertisement creation")
     public void userIsAuthorizedForAdCreation() {
         context.loginPage.openPage();
         context.homePageAfterLogin = context.loginPage.loginUser(context.userRegisterData);
@@ -25,11 +26,15 @@ public class AdCreateSteps {
         context.createAdPage = context.homePageAfterLogin.clickCreateAdButton();
         context.createAdPage.shouldBeOpened();
         context.homePageAfterLogin = context.createAdPage.createAd(context.adCreateData);
+        Selenide.sleep(3000);
     }
 
-    @Then("Ad is displayed in user profile")
+    @Then("Advertisement is displayed in user profile")
     public void adDisplayedInProfile() {
         context.profilePage = context.homePageAfterLogin.clickProfileButton();
-        Assertions.assertTrue(context.profilePage.hasAds());
+        Selenide.sleep(2000);
+
+        boolean hasAds = context.profilePage.getAdCount() > 0;
+        Assertions.assertTrue(hasAds, "Объявление не отображается в профиле пользователя");
     }
 }

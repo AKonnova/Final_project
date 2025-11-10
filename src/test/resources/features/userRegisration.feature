@@ -6,16 +6,16 @@ Feature: User registration
 
   @positive
   Scenario: Successful registration with unique email
-    Given User data is generated
+    Given New user data is generated
     When User opens home page
-    And Goes to the registration form
-    And Registers with correct data
-    Then Authorized user username is displayed in header
+    And User navigates to registration form
+    And User registers with valid data
+    Then Authorized user name displayed in header
 
   @existingData
   Scenario: Registration failure with existing email
-    Given User is already registered in the system
+    Given User already registered in system
     When User opens home page
-    And Goes to the registration form
-    And Registers with already existing data
-    Then Registration error is displayed
+    And User navigates to registration form
+    And User attempts registration with existing data
+    Then Registration error message displayed

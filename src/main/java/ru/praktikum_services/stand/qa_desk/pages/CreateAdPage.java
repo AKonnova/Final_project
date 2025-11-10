@@ -57,11 +57,13 @@ public class CreateAdPage extends BasePage {
 
     public void selectCategory(String category) {
         categoryDropdownButton.shouldBe(visible, enabled).click();
+        sleep(1000);
         dropdownOptions.findBy(text(category)).shouldBe(visible, enabled).click();
     }
 
     public void selectCity(String city) {
         cityDropdownButton.shouldBe(visible, enabled).click();
+        sleep(1000);
         dropdownOptions.findBy(text(city)).shouldBe(visible, enabled).click();
     }
 

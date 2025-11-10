@@ -6,7 +6,7 @@ Feature: Advertisement creation
 
   @creation
   Scenario: Successful advertisement creation
-    Given User is registered in the system
-    And User is authorized in the system for ad creation
+    Given Registered user exists in system
+    And User is authorized for advertisement creation
     When User creates new advertisement
-    Then Ad is displayed in user profile
+    Then Advertisement is displayed in user profile

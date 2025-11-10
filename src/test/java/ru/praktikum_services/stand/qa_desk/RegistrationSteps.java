@@ -13,12 +13,12 @@ public class RegistrationSteps {
         this.context = context;
     }
 
-    @Given("User data is generated")
+    @Given("New user data is generated")
     public void generateUserData() {
         context.userRegisterData = context.dataGenerator.createUser();
     }
 
-    @Given("User is already registered in the system")
+    @Given("User already registered in system")
     public void userIsAlreadyRegistered() {
         context.userRegisterData = context.dataGenerator.createUser();
         try {
@@ -33,13 +33,13 @@ public class RegistrationSteps {
         context.homePageBeforeLogin.openPage();
     }
 
-    @When("Goes to the registration form")
+    @When("User navigates to registration form")
     public void goToRegistrationForm() {
         context.loginPage = context.homePageBeforeLogin.clickLoginRegisterButton();
         context.registrationPage = context.loginPage.clickRegisterButton();
     }
 
-    @When("Registers with correct data")
+    @When("User registers with valid data")
     public void registerCorrectData() {
         try {
             context.userApi.registerUser(context.userRegisterData);
@@ -51,14 +51,14 @@ public class RegistrationSteps {
         }
     }
 
-    @When("Registers with already existing data")
+    @When("User attempts registration with existing data")
     public void registerWithExistingData() {
         context.userApi.registerUser(context.userRegisterData);
         context.registrationPage = context.registrationPage.openViaUI();
         context.registrationPage.tryRegisterUser(context.userRegisterData);
     }
 
-    @Then("Authorized user username is displayed in header")
+    @Then("Authorized user name displayed in header")
     public void usernameIsDisplayed() {
         Assertions.assertTrue(context.homePageAfterLogin.isAuthorized());
         String userName = context.homePageAfterLogin.getUsername();
@@ -66,7 +66,7 @@ public class RegistrationSteps {
         Assertions.assertFalse(userName.isEmpty());
     }
 
-    @Then("Registration error is displayed")
+    @Then("Registration error message displayed")
     public void registrationErrorDisplayed() {
         Assertions.assertTrue(context.registrationPage.isRegistrationFailed());
     }

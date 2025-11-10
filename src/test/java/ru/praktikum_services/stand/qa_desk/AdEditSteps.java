@@ -5,6 +5,11 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import ru.praktikum_services.stand.qa_desk.api.DataGenerator;
+import com.codeborne.selenide.Selenide;
+
+import com.codeborne.selenide.SelenideElement;
+import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Condition.*;
 
 public class AdEditSteps {
 
@@ -39,16 +44,32 @@ public class AdEditSteps {
         Assertions.assertTrue(context.profilePage.hasAds());
     }
 
-    @When("User clicks edit button")
-    public void userEditsAd() {
-        Assertions.assertTrue(context.profilePage.hasEditButton());
-        context.profilePage.clickEditButton();
-        Assertions.assertTrue(context.editAdPage.hasTitle(context.adCreateData.getName()));
+    @When("User finds advertisement in profile")
+    public void userFindsAdvertisementInProfile() {
+        context.profilePage = context.homePageAfterLogin.clickProfileButton();
+        Assertions.assertTrue(context.profilePage.hasAds(), "Объявление не найдено в профиле");
     }
 
-    @Then("Ad create form is opened")
-    public void openCreateAdForm() {
-        context.createAdPage.openPage();
-        context.createAdPage.shouldBeOpened();
+    @When("User opens advertisement for editing")
+    public void userOpensAdvertisementForEditing() {
+        context.profilePage.clickFirstAd();
+        Selenide.sleep(2000);
+    }
+
+    @When("User clicks edit button")
+    public void userClicksEditButton() {
+        try {
+            SelenideElement editButton = $x("//button[text()='Редактировать']");
+            editButton.shouldBe(visible, enabled).click();
+            Selenide.sleep(2000);
+        } catch (Exception e) {
+            throw new AssertionError("В объявлении нет кнопки \"Редактировать\"", e);
+        }
+    }
+
+    @Then("Edit advertisement form is opened")
+    public void editAdFormOpened() {
+        boolean isOpened = context.editAdPage.isOpened();
+        Assertions.assertTrue(isOpened, "Форма редактирования не открылась");
     }
 }

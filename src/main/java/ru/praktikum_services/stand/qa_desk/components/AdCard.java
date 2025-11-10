@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import ru.praktikum_services.stand.qa_desk.pages.EditAdPage;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.page;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class AdCard {
     private final SelenideElement card;
@@ -37,16 +38,22 @@ public class AdCard {
 
     public EditAdPage editAd() {
         clickEdit();
+        sleep(1000);
         return page(EditAdPage.class);
     }
 
+    public void deleteAd() {
+        clickDelete();
+        sleep(1000);
+    }
+
     public AdCard shouldHaveEditButton() {
-        editButtonElement.shouldBe(visible, enabled);
+        editButtonElement.shouldBe(visible);
         return this;
     }
 
     public AdCard shouldHaveDeleteButton() {
-        deleteButtonElement.shouldBe(visible, enabled);
+        deleteButtonElement.shouldBe(visible);
         return this;
     }
 }

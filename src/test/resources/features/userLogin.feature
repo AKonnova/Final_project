@@ -6,7 +6,7 @@ Feature: User login
 
   @success
   Scenario: successful authorization
-    Given User is registered in the system
+    Given Registered user exists in system
     When User opens login page
-    And Enters correct data and logs in
-    Then User is authorized
+    And User enters correct credentials and logs in
+    Then User is successfully authorized
