@@ -6,13 +6,14 @@ import ru.praktikum_services.stand.qa_desk.components.Header;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static ru.praktikum_services.stand.qa_desk.constants.Elements.EDIT_TITLE_SELECTOR;
 
 public class EditAdPage {
 
     private final SelenideElement titleLabel = $(EDIT_TITLE_SELECTOR);
+    private final SelenideElement nameInput = $("input[name='name']");
+    private final SelenideElement createAdTitle = $x("//h2[contains(text(), 'Создание объявления')]");
 
     private final Header header;
 
@@ -39,6 +40,32 @@ public class EditAdPage {
     }
 
     public boolean isOpened() {
-        return titleLabel.isDisplayed();
+        shouldBeEditForm();
+        return true;
+    }
+
+    public EditAdPage shouldBeEditForm() {
+        if (isCreateFormOpened()) {
+            throw new AssertionError("Открыта форма создания объявления, вместо редактирования");
+        }
+        nameInput.shouldBe(visible.because("Форма редактирования должна содержать поле названия"));
+        return this;
+    }
+
+    private boolean isCreateFormOpened() {
+        try {
+            if (createAdTitle.exists() && createAdTitle.isDisplayed()) {
+                return true;
+            }
+
+            String nameValue = nameInput.getValue();
+            if (nameValue == null || nameValue.isEmpty()) {
+                return true;
+            }
+
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

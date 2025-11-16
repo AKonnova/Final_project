@@ -34,7 +34,8 @@ public class AdCreateSteps {
         context.profilePage = context.homePageAfterLogin.clickProfileButton();
         Selenide.sleep(2000);
 
-        boolean hasAds = context.profilePage.getAdCount() > 0;
-        Assertions.assertTrue(hasAds, "Объявление не отображается в профиле пользователя");
+        boolean hasAdWithCorrectTitle = context.profilePage.hasAdWithTitle(context.adCreateData.getName());
+        Assertions.assertTrue(hasAdWithCorrectTitle,
+                "Объявление с заголовком '" + context.adCreateData.getName() + "' не отображается в профиле пользователя");
     }
 }

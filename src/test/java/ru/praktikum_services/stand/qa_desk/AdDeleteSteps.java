@@ -5,6 +5,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.junit.jupiter.api.Assertions;
 import ru.praktikum_services.stand.qa_desk.api.DataGenerator;
+import ru.praktikum_services.stand.qa_desk.components.AdCard;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.ElementsCollection;
@@ -51,8 +52,9 @@ public class AdDeleteSteps {
         context.profilePage = context.homePageAfterLogin.clickProfileButton();
         Selenide.sleep(2000);
 
-        boolean hasAds = context.profilePage.hasAds();
-        Assertions.assertTrue(hasAds, "Объявление не отображается в профиле");
+        boolean hasAdWithCorrectTitle = context.profilePage.hasAdWithTitle(context.createdAdTitle);
+        Assertions.assertTrue(hasAdWithCorrectTitle,
+                "Объявление с заголовком '" + context.createdAdTitle + "' не отображается в профиле");
     }
 
     @When("User opens advertisement for viewing from profile")
@@ -64,11 +66,15 @@ public class AdDeleteSteps {
     @When("User clicks delete button")
     public void clickDeleteButton() {
         try {
-            SelenideElement deleteButton = $x("//button[text()='Удалить']");
-            deleteButton.shouldBe(visible, enabled).click();
+            context.profilePage = context.homePageAfterLogin.clickProfileButton();
+            Selenide.sleep(2000);
+
+            AdCard adCard = context.profilePage.findAdByTitle(context.createdAdTitle);
+            adCard.shouldHaveDeleteButton();
+            adCard.clickDelete();
             Selenide.sleep(3000);
         } catch (Exception e) {
-            throw new AssertionError("В объявлении нет кнопки \"Удалить\"", e);
+            throw new AssertionError("Ошибка при удалении объявления: " + e.getMessage(), e);
         }
     }
 

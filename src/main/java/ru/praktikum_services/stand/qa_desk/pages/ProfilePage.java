@@ -42,16 +42,62 @@ public class ProfilePage extends BasePage {
         return !advertisementCards.isEmpty();
     }
 
-    public void shouldHaveAdvertisements() {
-        advertisementCards.first().shouldBe(visible);
+    public ProfilePage shouldHaveAdvertisements() {
+        if (advertisementCards.isEmpty()) {
+            throw new AssertionError("В профиле пользователя нет объявлений");
+        }
+        advertisementCards.first().shouldBe(visible.because("Хотя бы одно объявление должно быть видно в профиле"));
+        return this;
     }
 
     public int getAdCount() {
         return advertisementCards.size();
     }
 
+    public AdCard getFirstAd() {
+        return new AdCard(advertisementCards.first());
+    }
+
     public void clickFirstAd() {
         advertisementCards.first().click();
+    }
+
+    public boolean hasAdWithTitle(String title) {
+        if (advertisementCards.isEmpty()) {
+            return false;
+        }
+
+        advertisementCards.first().shouldBe(visible);
+
+        for (SelenideElement card : advertisementCards) {
+            AdCard adCard = new AdCard(card);
+            try {
+                if (adCard.hasTitle(title)) {
+                    return true;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+
+    public AdCard findAdByTitle(String title) {
+        if (advertisementCards.isEmpty()) {
+            throw new AssertionError("В профиле нет объявлений");
+        }
+
+        advertisementCards.first().shouldBe(visible);
+
+        for (SelenideElement card : advertisementCards) {
+            AdCard adCard = new AdCard(card);
+            try {
+                if (adCard.hasTitle(title)) {
+                    return adCard;
+                }
+            } catch (Exception e) {
+            }
+        }
+        throw new AssertionError("Объявление с заголовком '" + title + "' не найдено в профиле");
     }
 
     public boolean hasEditButton() {
@@ -71,6 +117,13 @@ public class ProfilePage extends BasePage {
         if (!advertisementCards.isEmpty()) {
             AdCard firstAd = new AdCard(advertisementCards.first());
             firstAd.clickEdit();
+        }
+    }
+
+    public void clickDeleteButton() {
+        if (!advertisementCards.isEmpty()) {
+            AdCard firstAd = new AdCard(advertisementCards.first());
+            firstAd.clickDelete();
         }
     }
 }

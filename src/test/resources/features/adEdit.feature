@@ -11,5 +11,4 @@ Feature: Advertisement edit
     And User has a created advertisement
     When User finds advertisement in profile
     And User opens advertisement for editing
-    And User clicks edit button
     Then Edit advertisement form is opened

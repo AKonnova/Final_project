@@ -5,11 +5,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import ru.praktikum_services.stand.qa_desk.api.DataGenerator;
+import ru.praktikum_services.stand.qa_desk.components.AdCard;
 import com.codeborne.selenide.Selenide;
-
-import com.codeborne.selenide.SelenideElement;
-import static com.codeborne.selenide.Selenide.$x;
-import static com.codeborne.selenide.Condition.*;
 
 public class AdEditSteps {
 
@@ -40,36 +37,39 @@ public class AdEditSteps {
         context.createAdPage = context.homePageAfterLogin.clickCreateAdButton();
         context.createAdPage.shouldBeOpened();
         context.homePageAfterLogin = context.createAdPage.createAd(context.adCreateData);
+        Selenide.sleep(3000);
+
+        context.createdAdTitle = context.adCreateData.getName();
+
         context.profilePage = context.homePageAfterLogin.clickProfileButton();
-        Assertions.assertTrue(context.profilePage.hasAds());
+        Selenide.sleep(2000);
+
+        context.profilePage.shouldHaveAdvertisements();
     }
 
     @When("User finds advertisement in profile")
     public void userFindsAdvertisementInProfile() {
-        context.profilePage = context.homePageAfterLogin.clickProfileButton();
-        Assertions.assertTrue(context.profilePage.hasAds(), "Объявление не найдено в профиле");
+        context.profilePage.openPage();
+        Selenide.sleep(2000);
+
+        context.profilePage.shouldHaveAdvertisements();
     }
 
     @When("User opens advertisement for editing")
     public void userOpensAdvertisementForEditing() {
-        context.profilePage.clickFirstAd();
+        AdCard firstAd = context.profilePage.getFirstAd();
+        firstAd.shouldHaveEditButton();
+        firstAd.clickEdit();
         Selenide.sleep(2000);
     }
 
     @When("User clicks edit button")
     public void userClicksEditButton() {
-        try {
-            SelenideElement editButton = $x("//button[text()='Редактировать']");
-            editButton.shouldBe(visible, enabled).click();
-            Selenide.sleep(2000);
-        } catch (Exception e) {
-            throw new AssertionError("В объявлении нет кнопки \"Редактировать\"", e);
-        }
+        context.editAdPage.shouldBeEditForm();
     }
 
     @Then("Edit advertisement form is opened")
     public void editAdFormOpened() {
-        boolean isOpened = context.editAdPage.isOpened();
-        Assertions.assertTrue(isOpened, "Форма редактирования не открылась");
+        context.editAdPage.shouldBeEditForm();
     }
 }

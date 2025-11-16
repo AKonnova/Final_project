@@ -48,12 +48,22 @@ public class AdCard {
     }
 
     public AdCard shouldHaveEditButton() {
-        editButtonElement.shouldBe(visible);
+        if (!editButtonElement.exists()) {
+            throw new AssertionError("В карточке объявления нет кнопки для редактирования");
+        }
+        editButtonElement.shouldBe(visible.because("Кнопка редактирования должна быть видна"));
         return this;
     }
 
     public AdCard shouldHaveDeleteButton() {
-        deleteButtonElement.shouldBe(visible);
+        if (!deleteButtonElement.exists()) {
+            throw new AssertionError("В карточке объявления нет кнопки удаления");
+        }
+        deleteButtonElement.shouldBe(visible.because("Кнопка удаления должна быть видна"));
         return this;
+    }
+
+    public boolean hasTitle(String expectedTitle) {
+        return titleElement.shouldBe(visible).getText().contains(expectedTitle);
     }
 }

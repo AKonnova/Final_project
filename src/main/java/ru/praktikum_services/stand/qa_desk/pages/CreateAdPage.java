@@ -91,4 +91,15 @@ public class CreateAdPage extends BasePage {
         publishButton.shouldBe(visible);
         return this;
     }
+
+    public boolean isCreateFormOpened() {
+        try {
+            nameInput.shouldBe(visible.because("Поле названия должно быть видно в форме создания"));
+            descriptionInput.shouldBe(visible.because("Поле описания должно быть видно в форме создания"));
+            priceInput.shouldBe(visible.because("Поле цены должно быть видно в форме создания"));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
