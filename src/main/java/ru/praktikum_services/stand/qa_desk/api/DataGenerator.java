@@ -48,6 +48,30 @@ public class DataGenerator {
         return new AdCreateData(productName, category, condition, city, description, price);
     }
 
+    public AdCreateData createAdForDeletion() {
+        String productName = generateProductName();
+        String category = "Авто";
+        String condition = getRandomCondition();
+        String city = "Москва";
+        String description = generateDescription();
+        int price = generatePrice();
+        return new AdCreateData(productName, category, condition, city, description, price);
+    }
+
+    public AdCreateData createAdForEdit() {
+        String productName = generateProductName();
+        String category = "Авто";
+        String condition = getRandomCondition();
+        String city = "Москва";
+        String description = generateDescription();
+        int price = generatePrice();
+        return new AdCreateData(productName, category, condition, city, description, price);
+    }
+
+    public String generateNewProductName() {
+        return "Обновленный " + faker.commerce().productName();
+    }
+
     private String getRandomCategory() {
         return CATEGORIES.get(random.nextInt(CATEGORIES.size()));
     }
